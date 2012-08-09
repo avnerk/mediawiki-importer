@@ -38,7 +38,28 @@ class Mediawiki_Import {
 		?>
 			<div class="narrow">
 				<form action="admin.php?import=mediawiki" method="post">
-					
+					<input type="hidden" name="step" value="1" />
+					<p><?php _e( 'Howdy! This importer allows you to connect to mediawiki based sites and import content' , 'mediawiki-importer') ?></p>
+					<p><?php _e( 'Enter your Mediawiki username and password below:' , 'mediawiki-importer') ?></p>
+
+					<table class="form-table">
+
+						<tr>
+							<th scope="row"><label for="mw_username"><?php _e( 'Mediawiki Username' , 'mediawiki-importer') ?></label></th>
+							<td><input type="text" name="mw_username" id="mw_username" class="regular-text" /></td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="mw_password"><?php _e( 'Mediawiki Password' , 'mediawiki-importer') ?></label></th>
+							<td><input type="password" name="mw_password" id="mw_password" class="regular-text" /></td>
+						</tr>
+
+					</table>
+
+					<p class="submit">
+						<input type="submit" class="button" value="<?php esc_attr_e( 'Connect to Mediawiki site and Import' , 'mediawiki-importer') ?>" />
+					</p>
+
 				</form>
 			</div>
 		<?php
