@@ -36,6 +36,9 @@ class Mediawiki_Import {
 
 	}
 
+	function Mediawiki_Import() {
+		// Nothing.
+	}
 }
 }
 
