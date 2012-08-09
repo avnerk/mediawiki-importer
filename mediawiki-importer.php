@@ -34,6 +34,11 @@ class Mediawiki_Import {
 		echo '</div>';
 	}
 
+	function greet() {
+		echo '<div class="narrow">';
+		echo '</div>';
+	}
+
 	function dispatch() {
 
 		$this->header();
