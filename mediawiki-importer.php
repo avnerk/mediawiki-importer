@@ -34,6 +34,10 @@ class Mediawiki_Import {
 
 	function dispatch() {
 
+		$this->header();
+
+		$this->footer();
+
 	}
 
 	function Mediawiki_Import() {
