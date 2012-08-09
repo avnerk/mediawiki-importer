@@ -25,11 +25,13 @@ if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
 	function header() {
-
+		echo '<div class="wrap">';
+		screen_icon();
+		echo '<h2>'.__('Import Mediawiki', 'mediawiki-importer').'</h2>';
 	}
 
 	function footer() {
-
+		echo '</div>';
 	}
 
 	function dispatch() {
