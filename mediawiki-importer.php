@@ -35,15 +35,20 @@ class Mediawiki_Import {
 	}
 
 	function greet() {
-		echo '<div class="narrow">';
-		echo '</div>';
+		?>
+			<div class="narrow">
+				<form action="admin.php?import=mediawiki" method="post">
+					
+				</form>
+			</div>
+		<?php
 	}
 
 	function dispatch() {
-		if (empty ($_GET['step']))
+		if ( empty ( $_REQUEST['step'] ) )
 			$step = 0;
 		else
-			$step = (int) $_GET['step'];
+			$step = (int) $_REQUEST['step'];
 
 		$this->header();
 
