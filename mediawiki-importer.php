@@ -20,9 +20,13 @@ if ( !class_exists( 'WP_Importer' ) ) {
 	if ( file_exists( $class_wp_importer ) )
 		require_once $class_wp_importer;
 }
+
 if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
 }
 }
+
+register_importer( 'mediawiki', __( 'Mediawiki', 'mediawiki-importer' ), __( 'Import content from Mediawiki sites.', 'mediawiki-importer' ), array( $mediawiki_import, 'dispatch' ) );
+
 $mediawiki_import = new Mediawiki_Import();
