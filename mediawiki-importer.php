@@ -40,11 +40,26 @@ class Mediawiki_Import {
 	}
 
 	function dispatch() {
+		if (empty ($_GET['step']))
+			$step = 0;
+		else
+			$step = (int) $_GET['step'];
 
 		$this->header();
 
-		$this->footer();
+		switch ($step) {
+			case 0 :
+				$this->greet();
+				break;
+			case 1 :
+				check_admin_referer( 'import-upload' );
+				$result = $this->import();
+				if ( is_wp_error( $result ) )
+					echo $result->get_error_message();
+				break;
+		}
 
+		$this->footer();
 	}
 
 	function Mediawiki_Import() {
