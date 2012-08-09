@@ -24,6 +24,10 @@ if ( !class_exists( 'WP_Importer' ) ) {
 if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
+	function dispatch() {
+		
+	}
+
 }
 }
 
