@@ -115,7 +115,7 @@ class Mediawiki_Import {
 		} catch(Exception $e) {
 			echo '<p>' . _e( 'login failed however you canimport posts' )  . '</p>';
 		}
-		
+
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
@@ -157,7 +157,7 @@ class Mediawiki_Import {
 		wp_insert_post(
 			array(
 				'post_title' => $page_title,
-				'post_content' => $xml->query->pages->page->revisions->rev
+				'post_content' => $result->query->pages->page->revisions->rev
 			)
 		);
 
@@ -176,20 +176,29 @@ class Mediawiki_Import {
 
 		// Send the request.
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
-		$response = wp_remote_post( $path );
-		var_dump( $response );
-
-		// Request with login token.
-		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
 		$response = wp_remote_post(
 			$path,
 			array (
 				'timeout' => $this->timeout,
 				'user-agent' => $this->user_agent,
 				'blocking' => true,
-				'headers' => array(),
-				'cookies' => array(),
-				'sslverify' => false,
+				'sslverify' => false
+			)
+		);
+
+		// Request with login token.
+		$lgtoken = $this->validate_response($response)->login['token'];
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+		$cookie = $response['cookies'];
+
+		$response = wp_remote_post(
+			$path,
+			array (
+				'timeout' => $this->timeout,
+				'user-agent' => $this->user_agent,
+				'blocking' => true,
+				'cookies' => $cookie,
+				'sslverify' => false
 			)
 		);
 
@@ -215,7 +224,8 @@ class Mediawiki_Import {
 	}
 
 	function validate_response( $response ) {
-		$xml = simplexml_load_string($response->body);
+
+		$xml = simplexml_load_string($response['body']);
 
 		if (isset($xml->warnings))
 		{
