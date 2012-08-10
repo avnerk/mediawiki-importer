@@ -141,18 +141,19 @@ class Mediawiki_Import {
 	}
 
 	function get_page_by_title() {
+
 		$page_title = sanitize_text_field( $_POST['mw_pagetitle'] );
 		$path = 'action=query&titles=' . $page_title . '&prop=revisions&rvparse=&rvprop=content';
 		$url = $this->build_request_url( $path );
 		$result = wp_remote_get( $url );
-		$xml = simplexml_load_string($result['body']);
-		var_dump($xml->query->pages->page->revisions->rev);
+
 		wp_insert_post(
 			array(
 				'post_title' => $page_title,
 				'post_content' => $xml->query->pages->page->revisions->rev
 			)
 		);
+
 	}
 
 	// helper functions
@@ -184,7 +185,7 @@ class Mediawiki_Import {
 				'sslverify' => false,
 			)
 		);
-		
+
 	}
 
 	function mw_import_encrypt( $data ) {
