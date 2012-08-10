@@ -114,7 +114,7 @@ class Mediawiki_Import {
 
 						<tr>
 							<th scope="row"><label for="mw_siteurl"><?php _e( 'Mediawiki Site Url' , 'mediawiki-importer') ?></label></th>
-							<td><input type="password" name="mw_siteurl" id="mw_siteurl" class="regular-text" /></td>
+							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" /></td>
 						</tr>
 
 					</table>
