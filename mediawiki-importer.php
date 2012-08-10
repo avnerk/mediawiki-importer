@@ -70,7 +70,7 @@ class Mediawiki_Import {
 	}
 
 	function get_page_by_title() {
-		$page_title = $_POST['mw_pagetitle'];
+		$page_title = sanitize_text_field( $_POST['mw_pagetitle'] );
 
 		$url = 'http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=Main%20Page&prop=revisions&rvparse=&rvprop=content';
 		$result = wp_remote_get( $url );
