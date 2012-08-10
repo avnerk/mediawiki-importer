@@ -43,7 +43,7 @@ class Mediawiki_Import {
 		$password = sanitize_text_field( $_POST['mw_password'] );
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
-		$path = $siteurl . '/api.php?action=login&lgname=' . $username . '&lgpassword=' . $password;
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $username . '&lgpassword=' . $password;
 		$response = wp_remote_post( $path );
 		var_dump( $response );
 
