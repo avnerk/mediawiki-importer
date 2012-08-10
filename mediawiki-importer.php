@@ -35,14 +35,21 @@ class Mediawiki_Import {
 	}
 
 	function display_menu() {
+		?>
+			<p>
+				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
+			</p>
+		<?php
+	}
+
+	function get_page_by_title() {
 
 	}
 
 	function greet() {
 		?>
 			<div class="narrow">
-				<form action="admin.php?import=mediawiki" method="post">
-					<input type="hidden" name="step" value="1" />
+				<form action="admin.php?import=mediawiki&step=1" method="post">
 					<p><?php _e( 'Howdy! This importer allows you to connect to mediawiki based sites and import content' , 'mediawiki-importer') ?></p>
 					<p><?php _e( 'Enter your Mediawiki username and password below:' , 'mediawiki-importer') ?></p>
 
@@ -70,10 +77,10 @@ class Mediawiki_Import {
 	}
 
 	function dispatch() {
-		if ( empty ( $_REQUEST['step'] ) )
+		if ( empty ( $_GET['step'] ) )
 			$step = 0;
 		else
-			$step = (int) $_REQUEST['step'];
+			$step = (int) $_GET['step'];
 
 		$this->header();
 
