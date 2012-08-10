@@ -45,9 +45,13 @@ class Mediawiki_Import {
 
 		try {
 			$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+
+			// Send the request.
 			$response = wp_remote_post( $path );
 			var_dump( $response );
 			$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+
+			// Request with login token.
 			$response = wp_remote_post( $path );
 		} catch(Exception $e) {
 			// handle error
