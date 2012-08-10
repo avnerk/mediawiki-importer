@@ -113,7 +113,7 @@ class Mediawiki_Import {
 		try {
 			$this->login();
 		} catch(Exception $e) {
-			echo '<p>' . _e( 'login failed however you canimport posts' )  . '</p>';
+			echo '<p>' . _e( 'login failed however you can import posts' )  . '</p>';
 		}
 
 		?>
