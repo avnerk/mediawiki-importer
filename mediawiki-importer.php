@@ -43,12 +43,15 @@ class Mediawiki_Import {
 		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
-		$response = wp_remote_post( $path );
-		var_dump( $response );
-		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
-		$response = wp_remote_post( $path );
-
+		try {
+			$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+			$response = wp_remote_post( $path );
+			var_dump( $response );
+			$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+			$response = wp_remote_post( $path );
+		} catch(Exception $e) {
+			// handle error
+		}
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
