@@ -29,6 +29,39 @@ class Mediawiki_Import {
 	private $user_agent = 'WordPress Mediawiki Importer';
 	private $timeout = 60;
 
+	function Mediawiki_Import() {
+		// Nothing.
+	}
+
+	function dispatch() {
+		if ( empty ( $_GET['step'] ) ) {
+			$step = 0;
+		}
+		else {
+			$this->setup(); // if no proper credentials is found redirect to login page
+			$step = (int) $_GET['step'];
+		}
+
+		$this->header();
+
+		switch ($step) {
+			case 0 :
+				$this->greet();
+				break;
+			case 1 :
+				$this->display_menu();
+				break;
+			case 2 :
+				$this->display_get_page_by_title();
+				break;
+			case 3 :
+				$this->get_page_by_title();
+				break;
+		}
+
+		$this->footer();
+	}
+
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
@@ -37,6 +70,42 @@ class Mediawiki_Import {
 
 	function footer() {
 		echo '</div>';
+	}
+
+
+	function greet() {
+		?>
+			<div class="narrow">
+				<form action="admin.php?import=mediawiki&step=1" method="post">
+					<p><?php _e( 'Howdy! This importer allows you to connect to mediawiki based sites and import content' , 'mediawiki-importer') ?></p>
+					<p><?php _e( 'Enter your Mediawiki username and password below:' , 'mediawiki-importer') ?></p>
+
+					<table class="form-table">
+
+						<tr>
+							<th scope="row"><label for="mw_username"><?php _e( 'Mediawiki Username' , 'mediawiki-importer') ?></label></th>
+							<td><input type="text" name="mw_username" id="mw_username" class="regular-text" /></td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="mw_password"><?php _e( 'Mediawiki Password' , 'mediawiki-importer') ?></label></th>
+							<td><input type="password" name="mw_password" id="mw_password" class="regular-text" /></td>
+						</tr>
+
+						<tr>
+							<th scope="row"><label for="mw_siteurl"><?php _e( 'Mediawiki Site Url' , 'mediawiki-importer') ?></label></th>
+							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" /></td>
+						</tr>
+
+					</table>
+
+					<p class="submit">
+						<input type="submit" class="button" value="<?php esc_attr_e( 'Connect to Mediawiki site and Import' , 'mediawiki-importer') ?>" />
+					</p>
+
+				</form>
+			</div>
+		<?php
 	}
 
 	function display_menu() {
@@ -114,41 +183,6 @@ class Mediawiki_Import {
 		);
 	}
 
-	function greet() {
-		?>
-			<div class="narrow">
-				<form action="admin.php?import=mediawiki&step=1" method="post">
-					<p><?php _e( 'Howdy! This importer allows you to connect to mediawiki based sites and import content' , 'mediawiki-importer') ?></p>
-					<p><?php _e( 'Enter your Mediawiki username and password below:' , 'mediawiki-importer') ?></p>
-
-					<table class="form-table">
-
-						<tr>
-							<th scope="row"><label for="mw_username"><?php _e( 'Mediawiki Username' , 'mediawiki-importer') ?></label></th>
-							<td><input type="text" name="mw_username" id="mw_username" class="regular-text" /></td>
-						</tr>
-
-						<tr>
-							<th scope="row"><label for="mw_password"><?php _e( 'Mediawiki Password' , 'mediawiki-importer') ?></label></th>
-							<td><input type="password" name="mw_password" id="mw_password" class="regular-text" /></td>
-						</tr>
-
-						<tr>
-							<th scope="row"><label for="mw_siteurl"><?php _e( 'Mediawiki Site Url' , 'mediawiki-importer') ?></label></th>
-							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" /></td>
-						</tr>
-
-					</table>
-
-					<p class="submit">
-						<input type="submit" class="button" value="<?php esc_attr_e( 'Connect to Mediawiki site and Import' , 'mediawiki-importer') ?>" />
-					</p>
-
-				</form>
-			</div>
-		<?php
-	}
-
 	function setup() {
 
 	}
@@ -188,38 +222,6 @@ class Mediawiki_Import {
 		return $xml;
 	}
 
-	function dispatch() {
-		if ( empty ( $_GET['step'] ) ) {
-			$step = 0;
-		}
-		else {
-			$this->setup(); // if no proper credentials is found redirect to login page
-			$step = (int) $_GET['step'];
-		}
-
-		$this->header();
-
-		switch ($step) {
-			case 0 :
-				$this->greet();
-				break;
-			case 1 :
-				$this->display_menu();
-				break;
-			case 2 :
-				$this->display_get_page_by_title();
-				break;
-			case 3 :
-				$this->get_page_by_title();
-				break;
-		}
-
-		$this->footer();
-	}
-
-	function Mediawiki_Import() {
-		// Nothing.
-	}
 }
 
 $mediawiki_import = new Mediawiki_Import();
