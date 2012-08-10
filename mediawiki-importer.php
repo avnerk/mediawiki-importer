@@ -183,6 +183,7 @@ class Mediawiki_Import {
 		);
 	}
 
+	// helper functions
 	function setup() {
 
 	}
