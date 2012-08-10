@@ -67,7 +67,9 @@ class Mediawiki_Import {
 	}
 
 	function get_page_by_title() {
-
+		$page_title = $_POST['mw_pagetitle'];
+		$url =
+		$result = wp_remote_get();
 	}
 
 	function greet() {
@@ -100,11 +102,18 @@ class Mediawiki_Import {
 		<?php
 	}
 
+	function setup() {
+		
+	}
+
 	function dispatch() {
-		if ( empty ( $_GET['step'] ) )
+		if ( empty ( $_GET['step'] ) ) {
 			$step = 0;
-		else
+		}
+		else {
+			$this->setup();
 			$step = (int) $_GET['step'];
+		}
 
 		$this->header();
 
