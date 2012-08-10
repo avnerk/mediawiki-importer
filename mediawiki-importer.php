@@ -42,8 +42,28 @@ class Mediawiki_Import {
 		<?php
 	}
 
-	function get_page_by_title() {
+	function display_get_page_by_title() {
+		?>
+			<div class="narrow">
+				<form action="admin.php?import=mediawiki&step=3" method="post">
+					<p><?php _e( 'Enter page title to retrieve:' , 'mediawiki-importer') ?></p>
 
+					<table class="form-table">
+
+						<tr>
+							<th scope="row"><label for="mw_pagetitle"><?php _e( 'Page title' , 'mediawiki-importer') ?></label></th>
+							<td><input type="text" name="mw_pagetitle" id="mw_pagetitle" class="regular-text" /></td>
+						</tr>
+
+					</table>
+
+					<p class="submit">
+						<input type="submit" class="button" value="<?php esc_attr_e( 'Import Page' , 'mediawiki-importer') ?>" />
+					</p>
+
+				</form>
+			</div>
+		<?php
 	}
 
 	function greet() {
@@ -90,6 +110,9 @@ class Mediawiki_Import {
 				break;
 			case 1 :
 				$this->display_menu();
+				break;
+			case 2 :
+				$this->display_get_page_by_title();
 				break;
 		}
 
