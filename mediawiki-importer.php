@@ -39,13 +39,15 @@ class Mediawiki_Import {
 
 	function display_menu() {
 
-		$username = sanitize_text_field( $_POST['mw_username'] );
-		$password = sanitize_text_field( $_POST['mw_password'] );
+		$lgname = sanitize_text_field( $_POST['mw_username'] );
+		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $username . '&lgpassword=' . $password;
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 		$response = wp_remote_post( $path );
 		var_dump( $response );
+		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+		$response = wp_remote_post( $path );
 
 		?>
 			<p>
@@ -139,7 +141,19 @@ class Mediawiki_Import {
 	}
 
 	function validate_response( $response ) {
+		$xml = simplexml_load_string($response->body);
 
+		if (isset($xml->warnings))
+		{
+			throw new DomainException($xml->warnings->info);
+		}
+
+		if (isset($xml->error))
+		{
+			throw new DomainException($xml->error['info']);
+		}
+
+		return $xml;
 	}
 
 	function dispatch() {
