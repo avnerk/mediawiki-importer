@@ -26,6 +26,8 @@ class Mediawiki_Import {
 
 	private $site_url;
 	private $cookie;
+	private $user_agent = 'WordPress Mediawiki Importer';
+	private $timeout = 60;
 
 	function header() {
 		echo '<div class="wrap">';
@@ -55,8 +57,8 @@ class Mediawiki_Import {
 			$response = wp_remote_post(
 				$path,
 				array (
-					'timeout' => 60,
-					'user-agent' => 'WordPress Mediawiki Importer',
+					'timeout' => $this->timeout,
+					'user-agent' => $this->user_agent,
 					'blocking' => true,
 					'headers' => array(),
 					'cookies' => array(),
