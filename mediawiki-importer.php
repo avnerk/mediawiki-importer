@@ -153,6 +153,19 @@ class Mediawiki_Import {
 
 	}
 
+	function mw_import_encrypt( $data ) {
+		$data = serialize( $data );
+		return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5(MW_IMPORT_KEY), $data, MCRYPT_MODE_CBC, md5(md5(MW_IMPORT_KEY))));
+	}
+
+	function mw_import_decrypt( $data ) {
+		$data = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5(MW_IMPORT_KEY), base64_decode($data), MCRYPT_MODE_CBC, md5(md5(MW_IMPORT_KEY))), "\0");
+		if ( !$data )
+			return false;
+
+		return @unserialize( $data );
+	}
+
 	function build_request_url( $path ) {
 		$site_url = get_option('mw_import_siteurl');
 		$url = $site_url . '?format=xml' . $path;
