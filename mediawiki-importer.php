@@ -71,11 +71,9 @@ class Mediawiki_Import {
 
 	function get_page_by_title() {
 		$page_title = sanitize_text_field( $_POST['mw_pagetitle'] );
-		$path = 'action=query&titles=Main%20Page&prop=revisions&rvparse=&rvprop=content';
+		$path = 'action=query&titles=' . $page_title . '&prop=revisions&rvparse=&rvprop=content';
 		$url = $this->build_request_url( $path );
-		$url = 'http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=Main%20Page&prop=revisions&rvparse=&rvprop=content';
 		$result = wp_remote_get( $url );
-		var_dump($result);
 		$xml = simplexml_load_string($result['body']);
 		var_dump($xml->query->pages->page->revisions->rev);
 		wp_insert_post(
