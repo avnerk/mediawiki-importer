@@ -109,6 +109,13 @@ class Mediawiki_Import {
 	}
 
 	function display_menu() {
+
+		try {
+			$this->login();
+		} catch(Exception $e) {
+			// handle error
+		}
+
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
