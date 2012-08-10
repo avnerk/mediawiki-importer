@@ -34,6 +34,10 @@ class Mediawiki_Import {
 		echo '</div>';
 	}
 
+	function import() {
+
+	}
+
 	function greet() {
 		?>
 			<div class="narrow">
@@ -78,7 +82,6 @@ class Mediawiki_Import {
 				$this->greet();
 				break;
 			case 1 :
-				check_admin_referer( 'import-upload' );
 				$result = $this->import();
 				if ( is_wp_error( $result ) )
 					echo $result->get_error_message();
