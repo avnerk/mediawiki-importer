@@ -109,34 +109,6 @@ class Mediawiki_Import {
 	}
 
 	function display_menu() {
-
-		$lgname = sanitize_text_field( $_POST['mw_username'] );
-		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
-		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
-
-		try {
-
-			// Send the request.
-			$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
-			$response = wp_remote_post( $path );
-			var_dump( $response );
-
-			// Request with login token.
-			$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
-			$response = wp_remote_post(
-				$path,
-				array (
-					'timeout' => $this->timeout,
-					'user-agent' => $this->user_agent,
-					'blocking' => true,
-					'headers' => array(),
-					'cookies' => array(),
-					'sslverify' => false,
-				)
-			);
-		} catch(Exception $e) {
-			// handle error
-		}
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
@@ -186,6 +158,33 @@ class Mediawiki_Import {
 	// helper functions
 	function setup() {
 
+	}
+
+	function login() {
+
+		$lgname = sanitize_text_field( $_POST['mw_username'] );
+		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
+		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
+
+		// Send the request.
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+		$response = wp_remote_post( $path );
+		var_dump( $response );
+
+		// Request with login token.
+		$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+		$response = wp_remote_post(
+			$path,
+			array (
+				'timeout' => $this->timeout,
+				'user-agent' => $this->user_agent,
+				'blocking' => true,
+				'headers' => array(),
+				'cookies' => array(),
+				'sslverify' => false,
+			)
+		);
+		
 	}
 
 	function mw_import_encrypt( $data ) {
