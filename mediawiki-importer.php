@@ -202,6 +202,9 @@ class Mediawiki_Import {
 			)
 		);
 
+		$cookie = $response['cookies'];
+		set_transient( 'mediawiki-import-cookie', $cookie, 60*60*24 );
+
 	}
 
 	function mw_import_encrypt( $data ) {
