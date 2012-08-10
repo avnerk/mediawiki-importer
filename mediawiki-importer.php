@@ -38,6 +38,11 @@ class Mediawiki_Import {
 	}
 
 	function display_menu() {
+
+		$username = sanitize_text_field( $_POST['mw_username'] );
+		$password = sanitize_text_field( $_POST['mw_password'] );
+		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
+
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
@@ -134,7 +139,7 @@ class Mediawiki_Import {
 			$step = 0;
 		}
 		else {
-			$this->setup();
+			$this->setup(); // if no proper credentials is found redirect to login page
 			$step = (int) $_GET['step'];
 		}
 
