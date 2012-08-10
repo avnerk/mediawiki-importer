@@ -44,15 +44,25 @@ class Mediawiki_Import {
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
 		try {
-			$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 
 			// Send the request.
+			$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 			$response = wp_remote_post( $path );
 			var_dump( $response );
-			$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
 
 			// Request with login token.
-			$response = wp_remote_post( $path );
+			$path = '?action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $this->validateResponse($response)->login['token'];
+			$response = wp_remote_post(
+				$path,
+				array (
+					'timeout' => 60,
+					'user-agent' => 'WordPress Mediawiki Importer',
+					'blocking' => true,
+					'headers' => array(),
+					'cookies' => array(),
+					'sslverify' => false,
+				)
+			);
 		} catch(Exception $e) {
 			// handle error
 		}
