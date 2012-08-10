@@ -120,6 +120,10 @@ class Mediawiki_Import {
 		<?php
 	}
 
+	function build_request_url() {
+		
+	}
+
 	function setup() {
 
 	}
