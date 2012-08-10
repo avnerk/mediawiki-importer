@@ -113,9 +113,9 @@ class Mediawiki_Import {
 		try {
 			$this->login();
 		} catch(Exception $e) {
-			// handle error
+			echo '<p>' . _e( 'login failed however you canimport posts' )  . '</p>';
 		}
-
+		
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
