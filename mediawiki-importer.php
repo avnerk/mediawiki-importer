@@ -34,7 +34,7 @@ class Mediawiki_Import {
 		echo '</div>';
 	}
 
-	function import() {
+	function display_menu() {
 
 	}
 
@@ -82,9 +82,7 @@ class Mediawiki_Import {
 				$this->greet();
 				break;
 			case 1 :
-				$result = $this->import();
-				if ( is_wp_error( $result ) )
-					echo $result->get_error_message();
+				$this->display_menu();
 				break;
 		}
 
