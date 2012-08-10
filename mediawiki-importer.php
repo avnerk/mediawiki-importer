@@ -128,13 +128,17 @@ class Mediawiki_Import {
 		<?php
 	}
 
+	function setup() {
+
+	}
+
 	function build_request_url( $path ) {
 		$site_url = get_option('mw_import_siteurl');
 		$url = $site_url . '?format=xml' . $path;
 		return $url;
 	}
 
-	function setup() {
+	function validate_response( $response ) {
 
 	}
 
