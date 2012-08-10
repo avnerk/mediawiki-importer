@@ -24,6 +24,9 @@ if ( !class_exists( 'WP_Importer' ) ) {
 if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
+	private $site_url;
+	private $cookie;
+
 	function header() {
 		echo '<div class="wrap">';
 		screen_icon();
@@ -68,8 +71,18 @@ class Mediawiki_Import {
 
 	function get_page_by_title() {
 		$page_title = $_POST['mw_pagetitle'];
-		$url =
-		$result = wp_remote_get();
+
+		$url = 'http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=Main%20Page&prop=revisions&rvparse=&rvprop=content';
+		$result = wp_remote_get( $url );
+		var_dump($result);
+		$xml = simplexml_load_string($result['body']);
+		var_dump($xml->query->pages->page->revisions->rev);
+		wp_insert_post(
+			array(
+				'post_title' => $page_title,
+				'post_content' => $xml->query->pages->page->revisions->rev
+			)
+		);
 	}
 
 	function greet() {
@@ -103,7 +116,7 @@ class Mediawiki_Import {
 	}
 
 	function setup() {
-		
+
 	}
 
 	function dispatch() {
@@ -128,7 +141,7 @@ class Mediawiki_Import {
 				$this->display_get_page_by_title();
 				break;
 			case 3 :
-				$this->display_get_page_by_title();
+				$this->get_page_by_title();
 				break;
 		}
 
