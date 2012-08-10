@@ -66,6 +66,10 @@ class Mediawiki_Import {
 		<?php
 	}
 
+	function get_page_by_title() {
+
+	}
+
 	function greet() {
 		?>
 			<div class="narrow">
@@ -112,6 +116,9 @@ class Mediawiki_Import {
 				$this->display_menu();
 				break;
 			case 2 :
+				$this->display_get_page_by_title();
+				break;
+			case 3 :
 				$this->display_get_page_by_title();
 				break;
 		}
