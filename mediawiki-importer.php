@@ -171,15 +171,15 @@ class Mediawiki_Import {
 
 		$lgname = sanitize_text_field( $_POST['mw_username'] );
 		if( empty( $lgname ) )
-			return new WP_Error( 'mediawiki_login', __( 'Empty username', 'mediawiki-importer') );
+			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
 
 		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
 		if( empty( $lgname ) )
-			return new WP_Error( 'mediawiki_login', __( 'Empty password', 'mediawiki-importer') );
+			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
-		update_option( 'mediawiki_import_siteurl', $siteurl );
+		update_option( 'mw_import_siteurl', $siteurl );
 
 		// Send the request.
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
@@ -194,7 +194,7 @@ class Mediawiki_Import {
 		);
 
 		if ( is_wp_error( $response ) )
-			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
+			return new WP_Error( 'mw_login', __( $response->errors, 'mediawiki-importer') );
 
 		// Request with login token.
 		$lgtoken = $response['body']['login']['token'];
@@ -216,7 +216,7 @@ class Mediawiki_Import {
 			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 
 		$cookie = $response['cookies'];
-		set_transient( 'mediawiki_import_cookie', $cookie, 60*60*24 );
+		set_transient( 'mw_import_cookie', $cookie, 60*60*24 );
 
 	}
 
