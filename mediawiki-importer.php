@@ -207,7 +207,8 @@ class Mediawiki_Import {
 		$this->validate_response( $response );
 
 		$cookie = $response['cookies'];
-		set_transient( 'mediawiki-import-cookie', $cookie, 60*60*24 );
+		set_transient( 'mediawiki_import_cookie', $cookie, 60*60*24 );
+		update_option( 'mediawiki_import_siteurl', $siteurl );
 
 	}
 
