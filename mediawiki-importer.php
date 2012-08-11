@@ -110,11 +110,11 @@ class Mediawiki_Import {
 
 	function display_menu() {
 
-		try {
-			$this->login();
-		} catch(Exception $e) {
-			echo '<p>' . _e( 'login failed however you can import posts' )  . '</p>';
+		$result = $this->login();
+		if ( is_wp_error( $result ) ) {
+			// print a message login unsuccessful
 		}
+			return $result;
 
 		?>
 			<p>
