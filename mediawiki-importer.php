@@ -179,6 +179,8 @@ class Mediawiki_Import {
 
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
+		update_option( 'mediawiki_import_siteurl', $siteurl );
+
 		// Send the request.
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 		$response = wp_remote_post(
@@ -215,7 +217,6 @@ class Mediawiki_Import {
 
 		$cookie = $response['cookies'];
 		set_transient( 'mediawiki_import_cookie', $cookie, 60*60*24 );
-		update_option( 'mediawiki_import_siteurl', $siteurl );
 
 	}
 
