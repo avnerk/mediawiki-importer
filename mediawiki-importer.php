@@ -170,7 +170,13 @@ class Mediawiki_Import {
 	function login() {
 
 		$lgname = sanitize_text_field( $_POST['mw_username'] );
+		if( empty( $lgname ) )
+			return new WP_Error( 'mediawiki_login', __( 'Empty username', 'mediawiki-importer') );
+
 		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
+		if( empty( $lgname ) )
+			return new WP_Error( 'mediawiki_login', __( 'Empty password', 'mediawiki-importer') );
+
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 
 		// Send the request.
@@ -185,9 +191,8 @@ class Mediawiki_Import {
 			)
 		);
 
-		$result = $this->validate_response( $response );
-		if ( is_wp_error( $result ) )
-			return $result;
+		if ( is_wp_error( $response ) )
+			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
 
 		// Request with login token.
 		$lgtoken = $response['body']['login']['token'];
@@ -205,9 +210,8 @@ class Mediawiki_Import {
 			)
 		);
 
-		$result = $this->validate_response( $response );
-		if ( is_wp_error( $result ) )
-			return $result;
+		if ( is_wp_error( $response ) )
+			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 
 		$cookie = $response['cookies'];
 		set_transient( 'mediawiki_import_cookie', $cookie, 60*60*24 );
