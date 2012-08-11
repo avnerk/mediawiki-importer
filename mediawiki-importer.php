@@ -186,6 +186,8 @@ class Mediawiki_Import {
 			)
 		);
 
+		$this->validate_response( $response );
+
 		// Request with login token.
 		$lgtoken = $this->validate_response($response)->login['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
@@ -230,19 +232,17 @@ class Mediawiki_Import {
 
 	function validate_response( $response ) {
 
-		$xml = simplexml_load_string($response['body']);
-
-		if (isset($xml->warnings))
+		if ( isset( $response['body']['warnings'] ) )
 		{
-			throw new DomainException($xml->warnings->info);
+			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 		}
 
-		if (isset($xml->error))
+		if ( isset( $response['body']['error'] ) )
 		{
-			throw new DomainException($xml->error['info']);
+			return new WP_Error( 'mediawiki_login', __( $response['body']['error']['info'] , 'mediawiki-importer') );
 		}
 
-		return $xml;
+		return true;
 	}
 
 }
