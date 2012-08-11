@@ -190,7 +190,7 @@ class Mediawiki_Import {
 			return $result;
 
 		// Request with login token.
-		$lgtoken = $this->validate_response($response)->login['token'];
+		$lgtoken = $response['body']['login']['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 		$cookie = $response['cookies'];
 
