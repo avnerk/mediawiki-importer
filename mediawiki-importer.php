@@ -234,7 +234,7 @@ class Mediawiki_Import {
 	}
 
 	function build_request_url( $path ) {
-		$site_url = get_option('mw_import_siteurl');
+		$site_url = 'http://en.wikipedia.org/w/'; // @TODO change to retrieve it from options
 		$url = $site_url . '?format=xml' . $path;
 		return $url;
 	}
