@@ -114,7 +114,6 @@ class Mediawiki_Import {
 		if ( is_wp_error( $result ) ) {
 			// print a message login unsuccessful
 		}
-			return $result;
 
 		?>
 			<p>
