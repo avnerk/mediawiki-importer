@@ -186,7 +186,9 @@ class Mediawiki_Import {
 			)
 		);
 
-		$this->validate_response( $response );
+		$result = $this->validate_response( $response );
+		if ( is_wp_error( $result ) )
+			return $result;
 
 		// Request with login token.
 		$lgtoken = $this->validate_response($response)->login['token'];
@@ -204,7 +206,9 @@ class Mediawiki_Import {
 			)
 		);
 
-		$this->validate_response( $response );
+		$result = $this->validate_response( $response );
+		if ( is_wp_error( $result ) )
+			return $result;
 
 		$cookie = $response['cookies'];
 		set_transient( 'mediawiki_import_cookie', $cookie, 60*60*24 );
