@@ -110,9 +110,12 @@ class Mediawiki_Import {
 
 	function display_menu() {
 
+		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
+		update_option( 'mw_import_siteurl', $siteurl );
+
 		$result = $this->login();
 		if ( is_wp_error( $result ) ) {
-			// print a message login unsuccessful
+			//@TODO print a message login unsuccessful
 		}
 
 		?>
@@ -181,10 +184,6 @@ class Mediawiki_Import {
 		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
-
-		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
-
-		update_option( 'mw_import_siteurl', $siteurl );
 
 		// Send the request.
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
