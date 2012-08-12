@@ -93,8 +93,8 @@ class Mediawiki_Import {
 						</tr>
 
 						<tr>
-							<th scope="row"><label for="mw_siteurl"><?php echo esc_html( get_option( 'mw_import_siteurl' ) ) ?></label></th>
-							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" /></td>
+							<th scope="row"><label for="mw_siteurl"><?php _e( 'Mediawiki Site Url' , 'mediawiki-importer') ?></label></th>
+							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" value="<?php echo get_option( 'mw_import_siteurl' ) ?>"/></td>
 						</tr>
 
 					</table>
