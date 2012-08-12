@@ -151,7 +151,7 @@ class Mediawiki_Import {
 		$page_title = sanitize_text_field( $_POST['mw_pagetitle'] );
 		$path = '&action=query&titles=' . $page_title . '&prop=revisions&rvparse=&rvprop=content';
 		$url = $this->build_request_url( $path );
-		$result = wp_remote_get( $url );
+		$result = wp_remote_get( urlencode( $url ) );
 
 		wp_insert_post(
 			array(
