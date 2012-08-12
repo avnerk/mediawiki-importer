@@ -242,17 +242,19 @@ class Mediawiki_Import {
 
 	function validate_response( $response ) {
 
-		if ( isset( $response['body']['warnings'] ) )
+		$xml = simplexml_load_string($response['body']);
+
+		if (isset($xml->warnings))
 		{
-			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
+			throw new DomainException($xml->warnings->info);
 		}
 
-		if ( isset( $response['body']['error'] ) )
+		if (isset($xml->error))
 		{
-			return new WP_Error( 'mediawiki_login', __( $response['body']['error']['info'] , 'mediawiki-importer') );
+			throw new DomainException($xml->error['info']);
 		}
 
-		return true;
+		return $xml;
 	}
 
 }
