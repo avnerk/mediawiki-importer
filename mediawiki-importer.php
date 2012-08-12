@@ -152,8 +152,9 @@ class Mediawiki_Import {
 		$path = '&action=query&titles=' . urlencode( $page_title ) . '&prop=revisions&rvparse=&rvprop=content';
 		$url = $this->build_request_url( $path );
 
-		$result = wp_remote_get( $url );
-		if( is_wp_error( $this->validate_response( $result ) ) ) {
+		$response = wp_remote_get( $url );
+		$result = $this->validate_response( $response )
+		if( is_wp_error( $result ) ) {
 			// handle error
 		}
 
