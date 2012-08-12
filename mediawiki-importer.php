@@ -153,7 +153,7 @@ class Mediawiki_Import {
 		$url = $this->build_request_url( $path );
 
 		$response = wp_remote_get( $url );
-		$result = $this->validate_response( $response )
+		$result = $this->validate_response( $response );
 		if( is_wp_error( $result ) ) {
 			// handle error
 		}
