@@ -242,16 +242,16 @@ class Mediawiki_Import {
 
 	function validate_response( $response ) {
 
-		$xml = simplexml_load_string($response['body']);
+		$xml = simplexml_load_string( $response['body'] );
 
 		if (isset($xml->warnings))
 		{
-			throw new DomainException($xml->warnings->info);
+			new WP_Error( 'mediawiki_login', $xml->warnings->info );
 		}
 
 		if (isset($xml->error))
 		{
-			throw new DomainException($xml->error['info']);
+			new WP_Error( 'mediawiki_login', $xml->error['info']);
 		}
 
 		return $xml;
