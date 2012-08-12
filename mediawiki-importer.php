@@ -186,7 +186,7 @@ class Mediawiki_Import {
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
 		// Send the request.
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+		$path = get_option( 'mw_import_siteurl' ) . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 		$response = wp_remote_post(
 			$path,
 			array (
@@ -202,7 +202,7 @@ class Mediawiki_Import {
 
 		// Request with login token.
 		$lgtoken = $response['body']['login']['token'];
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+		$path = get_option( 'mw_import_siteurl' ) . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 		$cookie = $response['cookies'];
 
 		$response = wp_remote_post(
