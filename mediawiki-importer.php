@@ -192,7 +192,7 @@ class Mediawiki_Import {
 			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
 
 		$lgpassword = $this->mw_import_decrypt( get_option( 'mw_import_password' ) );
-		if( empty( $lgname ) )
+		if( empty( $lgpassword ) )
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
 		$siteurl = get_option( 'mw_import_siteurl' );
