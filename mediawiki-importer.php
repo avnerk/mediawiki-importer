@@ -25,13 +25,15 @@ if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
 	private $site_url;
-	private $cookie;
+	private $cookie = array();
 	private $user_agent = 'WordPress Mediawiki Importer';
 	private $timeout = 60;
 
 	function Mediawiki_Import() {
 		$this->site_url = get_option( 'mw_import_siteurl' );
-		$this->cookie = get_transient( 'mw_import_cookie' );
+		$cookie = get_transient( 'mw_import_cookie' );
+		if( $cookie )
+			$this->cookie = $cookie;
 	}
 
 	function dispatch() {
