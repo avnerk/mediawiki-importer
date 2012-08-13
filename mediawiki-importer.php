@@ -188,7 +188,7 @@ class Mediawiki_Import {
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
 
-		$lgpassword = get_option( 'mw_import_password' );
+		$lgpassword = $this->mw_import_decrypt( get_option( 'mw_import_password' ) );
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
@@ -214,8 +214,7 @@ class Mediawiki_Import {
 		$cookies = $response['cookies'];
 
 		// obtain the login token returned
-		$response_body = simplexml_load_string( $response['body'] );
-		$lgtoken = (string)$response_body->login['token'];
+		$lgtoken = simplexml_load_string( $response['body'] )->login['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 
 		// Request with login token.
@@ -229,7 +228,7 @@ class Mediawiki_Import {
 				'sslverify' => false
 			)
 		);
-
+var_dump($response);
 		if ( is_wp_error( $response ) )
 			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 
