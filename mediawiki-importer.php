@@ -168,7 +168,7 @@ class Mediawiki_Import {
 		$response = wp_remote_get( $url );
 		$response_body = simplexml_load_string($response['body']);
 		if( empty( $response_body->query->pages->page->revisions->rev ) ) {
-			echo '<p>Invalid title. return to <a  href=" admin.php?import=mediawiki&step=3">main menu</a></p>';
+			echo '<p>Invalid title. return to <a  href=" admin.php?import=mediawiki&step=1">main menu</a></p>';
 		}
 
 		$insert = wp_insert_post(
