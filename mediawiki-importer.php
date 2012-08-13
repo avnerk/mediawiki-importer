@@ -121,6 +121,11 @@ class Mediawiki_Import {
 		update_option( 'mw_import_siteurl', $siteurl );
 
 		$result = $this->login();
+		if( is_wp_error( $result ) ) {
+			echo '<p>Login Unsuccessful!</p>';
+		} else {
+			echo '<p>Login Successful!</p>'
+		}
 
 		?>
 			<p>
