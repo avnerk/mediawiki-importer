@@ -179,9 +179,9 @@ class Mediawiki_Import {
 		);
 
 		if ( is_wp_error( $insert ) ) {
-
+			echo '<p>Import Unsuccessful. Return to <a  href=" admin.php?import=mediawiki&step=1">main menu</a></p>';
 		} else {
-
+			echo '<p>Import Successful. Return to <a  href=" admin.php?import=mediawiki&step=1">main menu</a></p>';
 		}
 
 	}
