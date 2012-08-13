@@ -189,14 +189,15 @@ class Mediawiki_Import {
 
 		$lgname = get_option( 'mw_import_username' );
 		if( empty( $lgname ) )
-			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
+			return new WP_Error( 'mw_login', __( 'Empty Username', 'mediawiki-importer') );
 
 		$lgpassword = $this->mw_import_decrypt( get_option( 'mw_import_password' ) );
 		if( empty( $lgpassword ) )
-			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
+			return new WP_Error( 'mw_login', __( 'Empty Password', 'mediawiki-importer') );
 
 		$siteurl = get_option( 'mw_import_siteurl' );
-		// @TODO validate siteurl
+		if( !filter_var( $siteurl, FILTER_VALIDATE_URL ) )
+			return new WP_Error( 'mw_login', __( 'Invalid Site Url', 'mediawiki-importer') );
 
 		// Send the request.
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
