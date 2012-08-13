@@ -84,17 +84,17 @@ class Mediawiki_Import {
 
 						<tr>
 							<th scope="row"><label for="mw_username"><?php _e( 'Mediawiki Username' , 'mediawiki-importer') ?></label></th>
-							<td><input type="text" name="mw_username" id="mw_username" class="regular-text" /></td>
+							<td><input type="text" name="mw_username" id="mw_username" class="regular-text"  value="<?php echo esc_html( get_option( 'mw_import_username' ) ); ?>"/></td>
 						</tr>
 
 						<tr>
 							<th scope="row"><label for="mw_password"><?php _e( 'Mediawiki Password' , 'mediawiki-importer') ?></label></th>
-							<td><input type="password" name="mw_password" id="mw_password" class="regular-text" /></td>
+							<td><input type="password" name="mw_password" id="mw_password" class="regular-text"  value="<?php echo esc_html( $this->mw_import_decrypt( get_option( 'mw_import_siteurl' ) ) ); ?>"/></td>
 						</tr>
 
 						<tr>
 							<th scope="row"><label for="mw_siteurl"><?php _e( 'Mediawiki Site Url' , 'mediawiki-importer') ?></label></th>
-							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" value="<?php echo get_option( 'mw_import_siteurl' ) ?>"/></td>
+							<td><input type="text" name="mw_siteurl" id="mw_siteurl" class="regular-text" value="<?php echo esc_html( get_option( 'mw_import_siteurl' ) ); ?>"/></td>
 						</tr>
 
 					</table>
@@ -111,9 +111,9 @@ class Mediawiki_Import {
 	function display_menu() {
 
 		$lgname = sanitize_text_field( $_POST['mw_username'] );
-		update_option( 'mw_username', $lgname );
+		update_option( 'mw_import_username', $lgname );
 		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
-		update_option( 'mw_password', $this->mw_import_encrypt( $lgpassword ) );
+		update_option( 'mw_import_password', $this->mw_import_encrypt( $lgpassword ) );
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 		update_option( 'mw_import_siteurl', $siteurl );
 
