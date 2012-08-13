@@ -166,17 +166,16 @@ class Mediawiki_Import {
 		$url = $this->build_request_url( $path );
 
 		$response = wp_remote_get( $url );
-		$result = $this->validate_response( $response );
 		if( is_wp_error( $result ) ) {
 			// handle error
 		}
 
-		wp_insert_post(
+/*		wp_insert_post(
 			array(
 				'post_title' => $page_title,
 				'post_content' => $result->query->pages->page->revisions->rev
 			)
-		);
+		);*/
 
 	}
 
