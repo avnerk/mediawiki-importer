@@ -237,7 +237,7 @@ class Mediawiki_Import {
 			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
 
 		if( simplexml_load_string($response['body'])->login['result'] != 'Success' )
-			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
+			return new WP_Error( 'mediawiki_login', __( simplexml_load_string($response['body'])->login['result'], 'mediawiki-importer') );
 
 		$cookies = $response['cookies'];
 		set_transient( 'mw_import_cookie', $cookies, 60*60*24 );
