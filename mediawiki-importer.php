@@ -121,15 +121,13 @@ class Mediawiki_Import {
 		update_option( 'mw_import_siteurl', $siteurl );
 
 		$result = $this->login();
-		if ( is_wp_error( $result ) ) {
-			//@TODO print a message login unsuccessful
-		}
 
 		?>
 			<p>
 				<a href="?import=mediawiki&step=2"><?php _e( 'Import Page by title' , 'mediawiki-importer') ?></a>
 			</p>
 		<?php
+
 	}
 
 	function display_get_page_by_title() {
