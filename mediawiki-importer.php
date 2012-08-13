@@ -218,7 +218,7 @@ class Mediawiki_Import {
 		$cookies = $response['cookies'];
 
 		// obtain the login token returned
-		$lgtoken = simplexml_load_string( $response['body'] )->login['token'];
+		$lgtoken = simplexml_load_string($response['body'])->login['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 
 		// Request with login token.
@@ -234,7 +234,10 @@ class Mediawiki_Import {
 		);
 
 		if ( is_wp_error( $response ) )
-			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
+			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
+
+		if( simplexml_load_string($response['body'])->login['result'] != 'Success' )
+			return new WP_Error( 'mediawiki_login', __( $response->errors, 'mediawiki-importer') );
 
 		$cookies = $response['cookies'];
 		set_transient( 'mw_import_cookie', $cookies, 60*60*24 );
