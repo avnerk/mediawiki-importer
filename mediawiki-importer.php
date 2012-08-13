@@ -211,7 +211,7 @@ class Mediawiki_Import {
 			return new WP_Error( 'mw_login', __( $response->errors, 'mediawiki-importer') );
 
 		// Request with login token.
-		$lgtoken = $response['body']['login']['token'];
+		$lgtoken = simplexml_load_string( $response['body'] )->login['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 		$cookies = $response['cookies'];
 
@@ -251,23 +251,6 @@ class Mediawiki_Import {
 		$site_url = get_option( 'mw_import_siteurl' );
 		$url = $site_url . '/api.php?format=xml' . $path;
 		return $url;
-	}
-
-	function validate_response( $response ) {
-
-		$xml = simplexml_load_string( $response['body'] );
-
-		if (isset($xml->warnings))
-		{
-			new WP_Error( 'mediawiki_login', $xml->warnings->info );
-		}
-
-		if (isset($xml->error))
-		{
-			new WP_Error( 'mediawiki_login', $xml->error['info']);
-		}
-
-		return $xml;
 	}
 
 }
