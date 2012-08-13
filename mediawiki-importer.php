@@ -166,7 +166,7 @@ class Mediawiki_Import {
 		$url = $this->build_request_url( $path );
 
 		$response = wp_remote_get( $url );
-		if( is_wp_error( $result ) ) {
+		if( is_wp_error( $response ) ) {
 			// handle error
 		}
 
