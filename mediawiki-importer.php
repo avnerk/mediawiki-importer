@@ -92,7 +92,7 @@ class Mediawiki_Import {
 
 						<tr>
 							<th scope="row"><label for="mw_password"><?php _e( 'Mediawiki Password' , 'mediawiki-importer') ?></label></th>
-							<td><input type="password" name="mw_password" id="mw_password" class="regular-text"  value="<?php echo esc_html( $this->mw_import_decrypt( get_option( 'mw_import_siteurl' ) ) ); ?>"/></td>
+							<td><input type="password" name="mw_password" id="mw_password" class="regular-text" autocomplete="off" value="<?php echo esc_html( $this->mw_import_decrypt( get_option( 'mw_import_siteurl' ) ) ); ?>"/></td>
 						</tr>
 
 						<tr>
