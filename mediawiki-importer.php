@@ -210,11 +210,15 @@ class Mediawiki_Import {
 		if ( is_wp_error( $response ) )
 			return new WP_Error( 'mw_login', __( $response->errors, 'mediawiki-importer') );
 
-		// Request with login token.
-		$lgtoken = simplexml_load_string( $response['body'] )->login['token'];
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+		// obtain the cookies returned
 		$cookies = $response['cookies'];
 
+		// obtain the login token returned
+		$response_body = simplexml_load_string( $response['body'] );
+		$lgtoken = (string)$response_body->login['token'];
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+
+		// Request with login token.
 		$response = wp_remote_post(
 			$path,
 			array (
