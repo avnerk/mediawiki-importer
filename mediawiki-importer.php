@@ -117,7 +117,7 @@ class Mediawiki_Import {
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 		update_option( 'mw_import_siteurl', $siteurl );
 
-		$result = $this->login();
+		$result = $this->login( $lgname, $lgpassword, $siteurl  );
 		if ( is_wp_error( $result ) ) {
 			//@TODO print a message login unsuccessful
 		}
@@ -179,7 +179,7 @@ class Mediawiki_Import {
 
 	}
 
-	function login() {
+	function login( $lgname, $lgpassword, $siteurl ) {
 
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
@@ -187,8 +187,10 @@ class Mediawiki_Import {
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
+		// @TODO validate siteurl
+
 		// Send the request.
-		$path = get_option( 'mw_import_siteurl' ) . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 		$response = wp_remote_post(
 			$path,
 			array (
@@ -204,7 +206,7 @@ class Mediawiki_Import {
 
 		// Request with login token.
 		$lgtoken = $response['body']['login']['token'];
-		$path = get_option( 'mw_import_siteurl' ) . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 		$cookie = $response['cookies'];
 
 		$response = wp_remote_post(
