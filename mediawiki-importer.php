@@ -171,12 +171,18 @@ class Mediawiki_Import {
 			// handle error
 		}
 
-/*		wp_insert_post(
+		$insert = wp_insert_post(
 			array(
 				'post_title' => $page_title,
 				'post_content' => $result->query->pages->page->revisions->rev
 			)
-		);*/
+		);
+
+		if ( is_wp_error( $response ) ) {
+
+		} else {
+			
+		}
 
 	}
 
