@@ -168,20 +168,20 @@ class Mediawiki_Import {
 		$response = wp_remote_get( $url );
 		$response_body = simplexml_load_string($response['body']);
 		if( empty( $response_body->query->pages->page->revisions->rev ) ) {
-			// handle error
+			echo '<p>Invalid title. return to <a  href=" admin.php?import=mediawiki&step=3">main menu</a></p>';
 		}
 
 		$insert = wp_insert_post(
 			array(
 				'post_title' => $page_title,
-				'post_content' => $result->query->pages->page->revisions->rev
+				'post_content' => $response_body->query->pages->page->revisions->rev
 			)
 		);
 
-		if ( is_wp_error( $response ) ) {
+		if ( is_wp_error( $insert ) ) {
 
 		} else {
-			
+
 		}
 
 	}
