@@ -129,7 +129,7 @@ class Mediawiki_Import {
 			} else {
 				echo '<p>Login Successful!</p>';
 			}
-			
+
 		}
 
 		?>
@@ -174,6 +174,7 @@ class Mediawiki_Import {
 		$response_body = simplexml_load_string($response['body']);
 		if( empty( $response_body->query->pages->page->revisions->rev ) ) {
 			echo '<p>Invalid title. return to <a  href=" admin.php?import=mediawiki&step=1">main menu</a></p>';
+			return;
 		}
 
 		$insert = wp_insert_post(
