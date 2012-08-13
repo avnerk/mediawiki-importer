@@ -113,18 +113,23 @@ class Mediawiki_Import {
 
 	function display_menu() {
 
-		$lgname = sanitize_text_field( $_POST['mw_username'] );
-		update_option( 'mw_import_username', $lgname );
-		$lgpassword = sanitize_text_field( $_POST['mw_password'] );
-		update_option( 'mw_import_password', $this->mw_import_encrypt( $lgpassword ) );
-		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
-		update_option( 'mw_import_siteurl', $siteurl );
+		// Attempy login if redirected from greeting page
+		if( isset( $_POST['mw_username'] ) ) {
 
-		$result = $this->login();
-		if( is_wp_error( $result ) ) {
-			echo '<p>Login Unsuccessful!</p>';
-		} else {
-			echo '<p>Login Successful!</p>';
+			$lgname = sanitize_text_field( $_POST['mw_username'] );
+			update_option( 'mw_import_username', $lgname );
+			$lgpassword = sanitize_text_field( $_POST['mw_password'] );
+			update_option( 'mw_import_password', $this->mw_import_encrypt( $lgpassword ) );
+			$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
+			update_option( 'mw_import_siteurl', $siteurl );
+
+			$result = $this->login();
+			if( is_wp_error( $result ) ) {
+				echo '<p>Login Unsuccessful!</p>';
+			} else {
+				echo '<p>Login Successful!</p>';
+			}
+			
 		}
 
 		?>
