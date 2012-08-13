@@ -117,7 +117,7 @@ class Mediawiki_Import {
 		$siteurl = sanitize_text_field( $_POST['mw_siteurl'] );
 		update_option( 'mw_import_siteurl', $siteurl );
 
-		$result = $this->login( $lgname, $lgpassword, $siteurl  );
+		$result = $this->login();
 		if ( is_wp_error( $result ) ) {
 			//@TODO print a message login unsuccessful
 		}
@@ -179,14 +179,17 @@ class Mediawiki_Import {
 
 	}
 
-	function login( $lgname, $lgpassword, $siteurl ) {
+	function login() {
 
+		$lgname = get_option( 'mw_import_username' );
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty username', 'mediawiki-importer') );
 
+		$lgpassword = get_option( 'mw_import_password' );
 		if( empty( $lgname ) )
 			return new WP_Error( 'mw_login', __( 'Empty password', 'mediawiki-importer') );
 
+		$siteurl = get_option( 'mw_import_siteurl' );
 		// @TODO validate siteurl
 
 		// Send the request.
