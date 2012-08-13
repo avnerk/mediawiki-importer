@@ -30,7 +30,8 @@ class Mediawiki_Import {
 	private $timeout = 60;
 
 	function Mediawiki_Import() {
-		// Nothing.
+		$this->site_url = get_option( 'mw_import_siteurl' );
+		$this->cookie = get_transient( 'mw_import_cookie' );
 	}
 
 	function dispatch() {
