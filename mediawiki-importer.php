@@ -228,7 +228,7 @@ class Mediawiki_Import {
 				'sslverify' => false
 			)
 		);
-var_dump($response);
+
 		if ( is_wp_error( $response ) )
 			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 
