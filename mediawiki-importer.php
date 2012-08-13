@@ -25,15 +25,15 @@ if ( class_exists( 'WP_Importer' ) ) {
 class Mediawiki_Import {
 
 	private $site_url;
-	private $cookie = array();
+	private $cookies = array();
 	private $user_agent = 'WordPress Mediawiki Importer';
 	private $timeout = 60;
 
 	function Mediawiki_Import() {
 		$this->site_url = get_option( 'mw_import_siteurl' );
-		$cookie = get_transient( 'mw_import_cookie' );
-		if( $cookie )
-			$this->cookie = $cookie;
+		$cookies = get_transient( 'mw_import_cookie' );
+		if( $cookies )
+			$this->cookie = $cookies;
 	}
 
 	function dispatch() {
@@ -213,7 +213,7 @@ class Mediawiki_Import {
 		// Request with login token.
 		$lgtoken = $response['body']['login']['token'];
 		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
-		$cookie = $response['cookies'];
+		$cookies = $response['cookies'];
 
 		$response = wp_remote_post(
 			$path,
@@ -221,7 +221,7 @@ class Mediawiki_Import {
 				'timeout' => $this->timeout,
 				'user-agent' => $this->user_agent,
 				'blocking' => true,
-				'cookies' => $cookie,
+				'cookies' => $cookies,
 				'sslverify' => false
 			)
 		);
@@ -229,8 +229,8 @@ class Mediawiki_Import {
 		if ( is_wp_error( $response ) )
 			return new WP_Error( 'mediawiki_login', __( $response['body']['warnings']['info'], 'mediawiki-importer') );
 
-		$cookie = $response['cookies'];
-		set_transient( 'mw_import_cookie', $cookie, 60*60*24 );
+		$cookies = $response['cookies'];
+		set_transient( 'mw_import_cookie', $cookies, 60*60*24 );
 
 	}
 
