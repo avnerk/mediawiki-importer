@@ -170,7 +170,15 @@ class Mediawiki_Import {
 		$path = '&action=query&titles=' . urlencode( $page_title ) . '&prop=revisions&rvparse=&rvprop=content';
 		$url = $this->build_request_url( $path );
 
-		$response = wp_remote_get( $url );
+		$response = wp_remote_get(
+			$url,
+			array (
+				'timeout' => $this->timeout,
+				'user-agent' => $this->user_agent,
+				'blocking' => true,
+				'sslverify' => false
+			)
+		);
 		$response_body = simplexml_load_string($response['body']);
 		if( empty( $response_body->query->pages->page->revisions->rev ) ) {
 			echo '<p>Invalid title. return to <a  href=" admin.php?import=mediawiki&step=1">main menu</a></p>';
@@ -212,9 +220,9 @@ class Mediawiki_Import {
 			return new WP_Error( 'mw_login', __( 'Invalid Site Url', 'mediawiki-importer') );
 
 		// Send the request.
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
+		$url = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword;
 		$response = wp_remote_post(
-			$path,
+			$url,
 			array (
 				'timeout' => $this->timeout,
 				'user-agent' => $this->user_agent,
@@ -231,11 +239,11 @@ class Mediawiki_Import {
 
 		// obtain the login token returned
 		$lgtoken = simplexml_load_string($response['body'])->login['token'];
-		$path = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
+		$url = $siteurl . '/api.php?format=xml&action=login&lgname=' . $lgname . '&lgpassword=' . $lgpassword . '&lgtoken=' . $lgtoken;
 
 		// Request with login token.
 		$response = wp_remote_post(
-			$path,
+			$url,
 			array (
 				'timeout' => $this->timeout,
 				'user-agent' => $this->user_agent,
